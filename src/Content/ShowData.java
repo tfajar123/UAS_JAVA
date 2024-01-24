@@ -28,10 +28,46 @@ public class ShowData extends javax.swing.JPanel {
      */
     public ShowData() {
         initComponents();
-        Tampildata();
+        Reservasidata();
     }
-    private void Tampildata() {
-        
+    private void Reservasidata() {
+        try {
+            st = cn.createStatement();
+            String query = "SELECT r.*, k.* FROM reservasi r JOIN kamar k ON r.kode_kamar = k.kode_kamar";
+            rs = st.executeQuery(query);
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("No");
+            model.addColumn("Kode Kamar");
+            model.addColumn("Tipe Kamar");
+            model.addColumn("Check-In");
+            model.addColumn("Check-out");
+            model.addColumn("Total Harga");
+
+            int no = 1;
+
+            model.getDataVector().removeAllElements();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                Object[] data = {
+                    no++,
+                    rs.getInt("kode_kamar"),
+                    rs.getString("tipe_kamar"),
+                    rs.getDate("check_in"),
+                    rs.getDate("check_out"),
+                    rs.getDouble("total_harga"),
+                };
+                model.addRow(data);
+            }
+
+            // Set the model outside the loop
+            TbldataKamar.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,17 +87,17 @@ public class ShowData extends javax.swing.JPanel {
 
         TbldataKamar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "No", "Kode Kamar", "Status", "Tipe Kamar"
+                "No", "Kode Kamar", "Tipe Kamar", "Check-In", "Check-out", "Total Harga"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -77,21 +113,21 @@ public class ShowData extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(221, 221, 221)
-                        .addComponent(jLabel1)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(jLabel1)
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

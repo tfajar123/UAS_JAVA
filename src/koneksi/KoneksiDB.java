@@ -14,26 +14,24 @@ import java.sql.SQLException;
  * @author acer
  */
 public class KoneksiDB {
-    Connection cn;
-
     public static Connection BukaKoneksi() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "root", "");
-            
-            JOptionPane.showMessageDialog(null, "Koneksi ke database berhasil!");
-
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/hotel", "root", "");
             return cn;
         } catch (SQLException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
             return null;
         }
     }
-    
-    public static void main(String[] args) {
-        
-        Connection connection = BukaKoneksi();
-        
+    public static void TutupKoneksi(Connection cn) {
+        if (cn != null) {
+            try {
+                JOptionPane.showMessageDialog(null, "Koneksi ditutup");
+                cn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }
 }

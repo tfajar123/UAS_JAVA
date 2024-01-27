@@ -18,17 +18,19 @@ import java.text.SimpleDateFormat;
  *
  * @author tfaja
  */
-public class ShowData extends javax.swing.JPanel {
+public class ShowData extends javax.swing.JPanel implements Runnable {
 
     public Statement st;
     public ResultSet rs;
     Connection cn = koneksi.KoneksiDB.BukaKoneksi();
+    private volatile boolean running = true;
     /**
      * Creates new form ShowData
      */
     public ShowData() {
         initComponents();
         Reservasidata();
+        new Thread(this).start();
     }
     private void Reservasidata() {
         try {
@@ -63,12 +65,23 @@ public class ShowData extends javax.swing.JPanel {
             }
 
             // Set the model outside the loop
-            TbldataKamar.setModel(model);
-        } catch (Exception e) {
+            TblReservasi.setModel(model);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+    @Override
+    public void run() {
+        while (running) {
+            try {
+                Thread.sleep(1000); // delay 1 detik
+                Reservasidata();
+            } catch (InterruptedException e) {
+                running = false;
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,12 +93,18 @@ public class ShowData extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TbldataKamar = new javax.swing.JTable();
+        TblReservasi = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Data Reservasi");
 
-        TbldataKamar.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        TblReservasi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -104,36 +123,35 @@ public class ShowData extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(TbldataKamar);
+        TblReservasi.setOpaque(false);
+        TblReservasi.setRowSelectionAllowed(false);
+        jScrollPane1.setViewportView(TblReservasi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(72, 72, 72)
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addGap(86, 86, 86))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TbldataKamar;
+    private javax.swing.JTable TblReservasi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

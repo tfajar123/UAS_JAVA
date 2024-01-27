@@ -5,14 +5,12 @@
  */
 package Content;
 
-//import com.toedter.calendar.JDateChooser;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-//import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -27,46 +25,8 @@ public class CreateData extends javax.swing.JPanel {
     
     public CreateData() {
         initComponents();
-        Tampildata();
     }
     
-    
-    private void Tampildata() {
-        try{
-            st = cn.createStatement();
-            rs = st.executeQuery("SELECT * FROM kamar");
-            
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("No");
-            model.addColumn("Kode Kamar");
-            model.addColumn("Status");
-            model.addColumn("Fasilitas");
-            model.addColumn("Harga");
-            
-            int no = 1;
-
-            model.getDataVector().removeAllElements();
-            model.fireTableDataChanged();
-            model.setRowCount(0);
-
-            while (rs.next()) {
-                // Mendapatkan nilai status_kamar dari hasil query
-                
-
-                Object[] data = {
-                    no++,
-                    rs.getInt("kode_kamar"),
-                    rs.getString("status"),
-                    rs.getString("tipe_kamar"),  // Menggunakan string fasilitas yang telah ditentukan
-                    rs.getDouble("harga"),
-                };
-                model.addRow(data);
-                TbldataKamar.setModel(model);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); 
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,22 +40,30 @@ public class CreateData extends javax.swing.JPanel {
         L_Input_data_kamar = new javax.swing.JLabel();
         L_No_kamar = new javax.swing.JLabel();
         L_Nama_tamu = new javax.swing.JLabel();
+        L_Status_kamar = new javax.swing.JLabel();
         TfnoKamar = new javax.swing.JTextField();
         TfTamu = new javax.swing.JTextField();
         TfHari = new javax.swing.JTextField();
         btncheckin = new javax.swing.JButton();
-        L_Data_kamar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TbldataKamar = new javax.swing.JTable();
+        TbldataKamar = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         L_CheckIn = new javax.swing.JLabel();
         jCheckIn = new com.toedter.calendar.JDateChooser();
         L_CheckOut = new javax.swing.JLabel();
         jCheckOut = new com.toedter.calendar.JDateChooser();
         L_Total_Hari = new javax.swing.JLabel();
+        jTanggalStatus = new com.toedter.calendar.JDateChooser();
+        jSearchStatus = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(880, 560));
 
-        L_System_Check_in_Hotel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        L_System_Check_in_Hotel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        L_System_Check_in_Hotel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         L_System_Check_in_Hotel.setText("System Check in Hotel");
 
         L_Input_data_kamar.setText("Input data kamar :");
@@ -103,6 +71,8 @@ public class CreateData extends javax.swing.JPanel {
         L_No_kamar.setText("No Kamar");
 
         L_Nama_tamu.setText("Nama Tamu");
+
+        L_Status_kamar.setText("Cari Ketersediaan Kamar:");
 
         TfnoKamar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,20 +86,12 @@ public class CreateData extends javax.swing.JPanel {
             }
         });
 
-        TfHari.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TfHariActionPerformed(evt);
-            }
-        });
-
         btncheckin.setText("Check in");
         btncheckin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncheckinActionPerformed(evt);
             }
         });
-
-        L_Data_kamar.setText("Data kamar :");
 
         TbldataKamar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,6 +112,7 @@ public class CreateData extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
+        TbldataKamar.setOpaque(false);
         jScrollPane1.setViewportView(TbldataKamar);
 
         L_CheckIn.setText("Check In");
@@ -158,16 +121,23 @@ public class CreateData extends javax.swing.JPanel {
 
         L_Total_Hari.setText("Total Hari");
 
+        Date date = new Date();
+        jTanggalStatus.setDate(date);
+
+        jSearchStatus.setText("Cari Kamar");
+        jSearchStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(L_Data_kamar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(559, 559, 559))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,56 +160,67 @@ public class CreateData extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(L_Status_kamar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTanggalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSearchStatus))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(L_CheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(L_CheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(L_Input_data_kamar))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(241, 241, 241)
                 .addComponent(btncheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(237, 237, 237))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(301, 301, 301)
-                .addComponent(L_System_Check_in_Hotel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(295, 295, 295))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(321, 321, 321)
+                .addComponent(L_System_Check_in_Hotel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(307, 307, 307))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(54, 54, 54)
                 .addComponent(L_System_Check_in_Hotel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(L_Input_data_kamar)
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(L_No_kamar, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(TfnoKamar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(L_Nama_tamu, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(TfTamu))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(L_Total_Hari, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(TfHari))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(L_CheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(jCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(L_CheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addComponent(btncheckin)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(L_No_kamar, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                            .addComponent(TfnoKamar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(L_Nama_tamu, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                            .addComponent(TfTamu))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(L_Total_Hari, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                            .addComponent(TfHari))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(L_CheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                            .addComponent(jCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(L_CheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addComponent(btncheckin)
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(L_Status_kamar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTanggalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSearchStatus))
                 .addGap(12, 12, 12)
-                .addComponent(L_Data_kamar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -260,85 +241,138 @@ public class CreateData extends javax.swing.JPanel {
         String totalHari = TfHari.getText();
         Date checkIn = jCheckIn.getDate();
         Date checkOut = jCheckOut.getDate();
-        
         Double hari = Double.valueOf(totalHari);
         int noKamar = Integer.parseInt(noKamarText);
-        
-        try {
-//            Connection cn = koneksi.KoneksiDB.BukaKoneksi();
 
-            // Query untuk mendapatkan harga
-            String queryHarga = "SELECT harga FROM kamar WHERE kode_kamar = ?";
-            PreparedStatement pstHarga = cn.prepareStatement(queryHarga);
-            pstHarga.setInt(1, noKamar);
-            ResultSet rsHarga = pstHarga.executeQuery();
+        try{
+            // Query untuk mengecek ketersediaan kamar
+            String queryCheckAvailability = "SELECT * FROM reservasi WHERE kode_kamar = ? AND check_in <= ? AND check_out >= ?";
+            PreparedStatement pstCheckAvailability;
+            pstCheckAvailability = cn.prepareStatement(queryCheckAvailability);
+            pstCheckAvailability.setInt(1,noKamar);
+            //Konversi format
+            java.sql.Date sqlCheckIn = new java.sql.Date(checkIn.getTime());
+            java.sql.Date sqlCheckOut = new java.sql.Date(checkOut.getTime());
+            pstCheckAvailability.setDate(2,sqlCheckOut);
+            pstCheckAvailability.setDate(3,sqlCheckIn);
+            ResultSet rsCheckAvailability;
+            rsCheckAvailability = pstCheckAvailability.executeQuery();
 
-            // Memeriksa apakah ada hasil
-            if (rsHarga.next()) {
-                double price = rsHarga.getDouble("harga");
+            if (rsCheckAvailability.next()) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Kamar tidak tersedia");
+            } else {
+                // Query untuk mendapatkan harga
+                String queryHarga = "SELECT harga FROM kamar WHERE kode_kamar = ?";
+                PreparedStatement pstHarga = cn.prepareStatement(queryHarga);
+                pstHarga.setInt(1, noKamar);
+                ResultSet rsHarga = pstHarga.executeQuery();
 
-                // Query untuk menyimpan data pada tabel tamu
-                String queryTamu = "INSERT INTO tamu (kode_kamar, nama) VALUES (?, ?)";
-                PreparedStatement pstTamu = cn.prepareStatement(queryTamu, Statement.RETURN_GENERATED_KEYS);
-                pstTamu.setInt(1, noKamar);
-                pstTamu.setString(2, namaTamu);
+                // Memeriksa apakah ada hasil
+                if (rsHarga.next()) {
+                    double price = rsHarga.getDouble("harga");
 
-                // Menjalankan query pertama
-                int affectedRows = pstTamu.executeUpdate();
+                    // Query untuk menyimpan data pada tabel tamu
+                    String queryTamu = "INSERT INTO tamu (kode_kamar, nama) VALUES (?, ?)";
+                    PreparedStatement pstTamu;
+                    pstTamu = cn.prepareStatement(queryTamu, Statement.RETURN_GENERATED_KEYS);
+                    pstTamu.setInt(1, noKamar);
+                    pstTamu.setString(2, namaTamu);
 
-                // Mendapatkan nilai id_tamu yang baru saja diinsert
-                if (affectedRows > 0) {
-                    ResultSet generatedKeys = pstTamu.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        int idTamu = generatedKeys.getInt(1);
-                        double totalHarga = hari * price;
+                    // Menjalankan query pertama
+                    int affectedRows = pstTamu.executeUpdate();
 
-                        // Query untuk menyimpan data pada tabel reservasi
-                        String queryReservasi = "INSERT INTO reservasi (kode_kamar, id_tamu, check_in, check_out, total_harga) VALUES (?, ?, ?, ?, ?)";
-                        PreparedStatement pstReservasi = cn.prepareStatement(queryReservasi);
-                        pstReservasi.setInt(1, noKamar);
-                        pstReservasi.setInt(2, idTamu);
+                    // Mendapatkan nilai id_tamu yang baru saja diinsert
+                    if (affectedRows > 0) {
+                        ResultSet generatedKeys = pstTamu.getGeneratedKeys();
+                        if (generatedKeys.next()) {
+                            int idTamu = generatedKeys.getInt(1);
+                            double totalHarga = hari * price;
 
-                        // Konversi java.util.Date ke java.sql.Date
-                        java.sql.Date sqlCheckIn = new java.sql.Date(checkIn.getTime());
-                        java.sql.Date sqlCheckOut = new java.sql.Date(checkOut.getTime());
+                            // Query untuk menyimpan data pada tabel reservasi
+                            String queryReservasi = "INSERT INTO reservasi (kode_kamar, id_tamu, check_in, check_out, total_harga) VALUES (?, ?, ?, ?, ?)";
+                            PreparedStatement pstReservasi;
+                            pstReservasi = cn.prepareStatement(queryReservasi);
+                            pstReservasi.setInt(1, noKamar);
+                            pstReservasi.setInt(2, idTamu);
 
-                        pstReservasi.setDate(3, sqlCheckIn);
-                        pstReservasi.setDate(4, sqlCheckOut);
-                        pstReservasi.setDouble(5, totalHarga);
+                            pstReservasi.setDate(3, sqlCheckIn);
+                            pstReservasi.setDate(4, sqlCheckOut);
+                            pstReservasi.setDouble(5, totalHarga);
 
-                        // Menjalankan query kedua
-                        pstReservasi.executeUpdate();
+                            // Menjalankan query kedua
+                            pstReservasi.executeUpdate();
 
-                        // Menutup statement reservasi
-                        pstReservasi.close();
+                            // Menutup statement reservasi
+                            pstReservasi.close();
+                        }
                     }
+                    javax.swing.JOptionPane.showMessageDialog(null, "Reservasi Berhasil!");
+                    //Hapus nilai form
+                    TfnoKamar.setText("");
+                    TfTamu.setText("");
+                    TfHari.setText("");
+                    jCheckIn.setDate(null);
+                    jCheckOut.setDate(null);
+                    // Menutup statement tamu dan harga
+                    pstTamu.close();
                 }
-
-                // Menutup statement tamu dan harga
-                pstTamu.close();
             }
-
-            // Menutup koneksi
-            cn.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch(SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
         }
-
     }//GEN-LAST:event_btncheckinActionPerformed
 
-    private void TfHariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfHariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TfHariActionPerformed
+    private void jSearchStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchStatusActionPerformed
+
+        //Ambil nilai tanggal dari form input
+        Date status = jTanggalStatus.getDate();        
+        java.sql.Date sqlStatus = new java.sql.Date(status.getTime());
+        
+        try{
+            //Query untuk check ketersediaan kamar berdasarkan tanggal check in dan checkout pada kode kamar
+            String queryCheckReservation = "SELECT k.id, k.kode_kamar, k.tipe_kamar, k.harga, r.check_in FROM kamar k LEFT JOIN reservasi r ON k.kode_kamar = r.kode_kamar AND ? BETWEEN r.check_in AND r.check_out;";
+            PreparedStatement psStatus = cn.prepareStatement(queryCheckReservation);
+            psStatus.setDate(1, sqlStatus);
+            rs = psStatus.executeQuery();
+            
+            
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("No");
+            model.addColumn("Kode Kamar");
+            model.addColumn("Status");
+            model.addColumn("Fasilitas");
+            model.addColumn("Harga");
+            
+            model.getDataVector().removeAllElements();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                // Mendapatkan nilai status_kamar dari hasil query
+                String stringStatus = rs.getDate("check_in") != null ? "tidak tersedia" : "tersedia";
+                Object[] data = {
+                    rs.getInt("id"),
+                    rs.getInt("kode_kamar"),
+                    stringStatus,
+                    rs.getString("tipe_kamar"),  // Menggunakan string fasilitas yang telah ditentukan
+                    rs.getDouble("harga"),
+                };
+                model.addRow(data);
+            }
+            TbldataKamar.setModel(model);
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jSearchStatusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel L_CheckIn;
     private javax.swing.JLabel L_CheckOut;
-    private javax.swing.JLabel L_Data_kamar;
     private javax.swing.JLabel L_Input_data_kamar;
     private javax.swing.JLabel L_Nama_tamu;
     private javax.swing.JLabel L_No_kamar;
+    private javax.swing.JLabel L_Status_kamar;
     private javax.swing.JLabel L_System_Check_in_Hotel;
     private javax.swing.JLabel L_Total_Hari;
     private javax.swing.JTable TbldataKamar;
@@ -349,5 +383,7 @@ public class CreateData extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jCheckIn;
     private com.toedter.calendar.JDateChooser jCheckOut;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSearchStatus;
+    private com.toedter.calendar.JDateChooser jTanggalStatus;
     // End of variables declaration//GEN-END:variables
 }

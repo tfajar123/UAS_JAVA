@@ -16,7 +16,7 @@ import Launcher.Launcher;
  * @author tfaja
  */
 public class Dashboard extends javax.swing.JFrame {
-    
+       
     CreateData a = new CreateData();
     ShowData b = new ShowData();
     UpdateData c = new UpdateData();
@@ -30,6 +30,10 @@ public class Dashboard extends javax.swing.JFrame {
      * @param cn
      */
     public Dashboard(Launcher l, Connection cn) {
+//        buat hilangi menu bar
+//        this.setUndecorated(true);
+//        this.getRootPane().setWindowDecorationStyle(javax.swing.JRootPane.NONE);
+        this.setMinimumSize(new java.awt.Dimension(1650, 700));
         this.l = l;
         this.cn = cn;
         initComponents();
@@ -52,7 +56,7 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jSidePanel = new javax.swing.JPanel();
         jCheckIn = new javax.swing.JButton();
         jShowData = new javax.swing.JButton();
         jUpdate = new javax.swing.JButton();
@@ -60,8 +64,10 @@ public class Dashboard extends javax.swing.JFrame {
         main = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(980, 645));
 
-        jPanel1.setBackground(new java.awt.Color(51, 0, 51));
+        jSidePanel.setBackground(new java.awt.Color(51, 0, 51));
+        jSidePanel.setPreferredSize(new java.awt.Dimension(235, 645));
 
         jCheckIn.setText("Check In");
         jCheckIn.addActionListener(new java.awt.event.ActionListener() {
@@ -91,22 +97,22 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jSidePanelLayout = new javax.swing.GroupLayout(jSidePanel);
+        jSidePanel.setLayout(jSidePanelLayout);
+        jSidePanelLayout.setHorizontalGroup(
+            jSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jSidePanelLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jShowData, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jSidePanelLayout.setVerticalGroup(
+            jSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jSidePanelLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -115,7 +121,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(362, Short.MAX_VALUE))
         );
 
         main.setLayout(new java.awt.CardLayout());
@@ -125,17 +131,17 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(main, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSidePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+            .addComponent(main)
         );
 
-        setSize(new java.awt.Dimension(1001, 524));
+        setSize(new java.awt.Dimension(1001, 654));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,8 +203,8 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jCheckIn;
     private javax.swing.JButton jExit;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jShowData;
+    private javax.swing.JPanel jSidePanel;
     private javax.swing.JButton jUpdate;
     private javax.swing.JLayeredPane main;
     // End of variables declaration//GEN-END:variables

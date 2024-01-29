@@ -11,6 +11,7 @@ import Content.ShowData;
 import Content.UpdateData;
 import Content.Display;
 import Launcher.Launcher;
+import Content.UpdateTamu;
 /**
  *
  * @author tfaja
@@ -21,6 +22,7 @@ public class Dashboard extends javax.swing.JFrame {
     ShowData b = new ShowData();
     UpdateData c = new UpdateData();
     Display d = new Display();
+    UpdateTamu e = new UpdateTamu();
     Launcher l;
     Connection cn;
     
@@ -33,7 +35,7 @@ public class Dashboard extends javax.swing.JFrame {
 //        buat hilangi menu bar
 //        this.setUndecorated(true);
 //        this.getRootPane().setWindowDecorationStyle(javax.swing.JRootPane.NONE);
-        this.setMinimumSize(new java.awt.Dimension(1650, 700));
+        this.setMinimumSize(new java.awt.Dimension(400, 400));
         this.l = l;
         this.cn = cn;
         initComponents();
@@ -41,10 +43,12 @@ public class Dashboard extends javax.swing.JFrame {
         main.add(b);
         main.add(c);
         main.add(d);
+        main.add(e);
         a.setVisible(false);
         b.setVisible(false);
         c.setVisible(false);
         d.setVisible(true);
+        e.setVisible(false);
     }
 
     /**
@@ -59,12 +63,14 @@ public class Dashboard extends javax.swing.JFrame {
         jSidePanel = new javax.swing.JPanel();
         jCheckIn = new javax.swing.JButton();
         jShowData = new javax.swing.JButton();
-        jUpdate = new javax.swing.JButton();
+        jKamar = new javax.swing.JButton();
         jExit = new javax.swing.JButton();
+        jEditKamar = new javax.swing.JButton();
         main = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(980, 645));
+        setPreferredSize(new java.awt.Dimension(400, 400));
+        setResizable(false);
 
         jSidePanel.setBackground(new java.awt.Color(51, 0, 51));
         jSidePanel.setPreferredSize(new java.awt.Dimension(235, 645));
@@ -76,17 +82,17 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jShowData.setText("Show Data");
+        jShowData.setText("Edit Reservasi");
         jShowData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jShowDataActionPerformed(evt);
             }
         });
 
-        jUpdate.setText("Update");
-        jUpdate.addActionListener(new java.awt.event.ActionListener() {
+        jKamar.setText("Data Kamar");
+        jKamar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jUpdateActionPerformed(evt);
+                jKamarActionPerformed(evt);
             }
         });
 
@@ -94,6 +100,13 @@ public class Dashboard extends javax.swing.JFrame {
         jExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jExitActionPerformed(evt);
+            }
+        });
+
+        jEditKamar.setText("Edit Tamu");
+        jEditKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEditKamarActionPerformed(evt);
             }
         });
 
@@ -106,8 +119,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jShowData, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jEditKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         jSidePanelLayout.setVerticalGroup(
@@ -118,10 +132,12 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jShowData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
+                .addComponent(jEditKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
 
         main.setLayout(new java.awt.CardLayout());
@@ -133,11 +149,11 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE))
+                .addComponent(main))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSidePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+            .addComponent(jSidePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
             .addComponent(main)
         );
 
@@ -151,6 +167,7 @@ public class Dashboard extends javax.swing.JFrame {
         b.setVisible(false);
         c.setVisible(false);
         d.setVisible(false);
+        e.setVisible(false);
     }//GEN-LAST:event_jCheckInActionPerformed
 
     private void jShowDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowDataActionPerformed
@@ -159,15 +176,17 @@ public class Dashboard extends javax.swing.JFrame {
         b.setVisible(true);
         c.setVisible(false);
         d.setVisible(false);
+        e.setVisible(false);
     }//GEN-LAST:event_jShowDataActionPerformed
 
-    private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateActionPerformed
+    private void jKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jKamarActionPerformed
         // TODO add your handling code here:
         a.setVisible(false);
         b.setVisible(false);
         c.setVisible(true);
         d.setVisible(false);
-    }//GEN-LAST:event_jUpdateActionPerformed
+        e.setVisible(false);
+    }//GEN-LAST:event_jKamarActionPerformed
 
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
         // TODO add your handling code here:
@@ -175,6 +194,14 @@ public class Dashboard extends javax.swing.JFrame {
         l.setVisible(true);
         dispose();
     }//GEN-LAST:event_jExitActionPerformed
+
+    private void jEditKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEditKamarActionPerformed
+        a.setVisible(false);
+        b.setVisible(false);
+        c.setVisible(false);
+        d.setVisible(false);
+        e.setVisible(true);
+    }//GEN-LAST:event_jEditKamarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,10 +229,11 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jCheckIn;
+    private javax.swing.JButton jEditKamar;
     private javax.swing.JButton jExit;
+    private javax.swing.JButton jKamar;
     private javax.swing.JButton jShowData;
     private javax.swing.JPanel jSidePanel;
-    private javax.swing.JButton jUpdate;
     private javax.swing.JLayeredPane main;
     // End of variables declaration//GEN-END:variables
 }

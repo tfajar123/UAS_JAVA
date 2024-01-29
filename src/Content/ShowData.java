@@ -7,18 +7,19 @@ package Content;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author tfaja
  */
-public class ShowData extends javax.swing.JPanel implements Runnable {
+public class ShowData extends javax.swing.JPanel {
 
     public Statement st;
     public ResultSet rs;
@@ -30,23 +31,21 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
     public ShowData() {
         initComponents();
         Reservasidata();
-        new Thread(this).start();
+        jId.setEditable(false);
     }
     private void Reservasidata() {
         try {
             st = cn.createStatement();
-            String query = "SELECT r.*, k.* FROM reservasi r JOIN kamar k ON r.kode_kamar = k.kode_kamar";
+            String query = "SELECT * FROM reservasi";
             rs = st.executeQuery(query);
 
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("No");
+            model.addColumn("ID");
             model.addColumn("Kode Kamar");
-            model.addColumn("Tipe Kamar");
+            model.addColumn("ID Tamu");
             model.addColumn("Check-In");
             model.addColumn("Check-out");
             model.addColumn("Total Harga");
-
-            int no = 1;
 
             model.getDataVector().removeAllElements();
             model.fireTableDataChanged();
@@ -54,9 +53,9 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
 
             while (rs.next()) {
                 Object[] data = {
-                    no++,
+                    rs.getInt("id"),
                     rs.getInt("kode_kamar"),
-                    rs.getString("tipe_kamar"),
+                    rs.getInt("id_tamu"),
                     rs.getDate("check_in"),
                     rs.getDate("check_out"),
                     rs.getDouble("total_harga"),
@@ -68,17 +67,6 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
             TblReservasi.setModel(model);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-    @Override
-    public void run() {
-        while (running) {
-            try {
-                Thread.sleep(1000); // delay 1 detik
-                Reservasidata();
-            } catch (InterruptedException e) {
-                running = false;
-            }
         }
     }
     
@@ -98,6 +86,18 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
                 return false;
             };
         };
+        jLabel2 = new javax.swing.JLabel();
+        jKodeKamar = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jCheckIn = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        jCheckOut = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        jHarga = new javax.swing.JTextField();
+        jUpdate = new javax.swing.JButton();
+        jDelete = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jId = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Data Reservasi");
@@ -112,11 +112,11 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No", "Kode Kamar", "Tipe Kamar", "Check-In", "Check-out", "Total Harga"
+                "No", "Kode Kamar", "ID Tamu", "Check-In", "Check-out", "Total Harga"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -125,34 +125,220 @@ public class ShowData extends javax.swing.JPanel implements Runnable {
         });
         TblReservasi.setOpaque(false);
         TblReservasi.setRowSelectionAllowed(false);
+        TblReservasi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblReservasiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblReservasi);
+
+        jLabel2.setText("Kode Kamar");
+
+        jLabel4.setText("Check In");
+
+        jLabel5.setText("Check Out");
+
+        jLabel6.setText("Total Harga");
+
+        jHarga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jHargaActionPerformed(evt);
+            }
+        });
+
+        jUpdate.setText("Update");
+        jUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUpdateActionPerformed(evt);
+            }
+        });
+
+        jDelete.setText("Delete");
+        jDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("ID");
+
+        jId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIdActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(174, 174, 174)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
-                .addContainerGap(151, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(311, 311, 311)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jUpdate)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDelete))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel7))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jId)
+                                        .addComponent(jKodeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6))
+                                    .addGap(20, 20, 20)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jHarga)))))
+                        .addGap(46, 46, 46)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                .addGap(86, 86, 86))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jKodeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jUpdate)
+                            .addComponent(jDelete))))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHargaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jHargaActionPerformed
+
+    private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateActionPerformed
+        try{
+            String idd = jId.getText();
+            String idKamar = jKodeKamar.getText();
+            Date checkIn = jCheckIn.getDate();
+            Date checkOut = jCheckOut.getDate();
+            String hargaText = jHarga.getText();
+            
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String value2 = dateFormat.format(checkIn);
+            String value3 = dateFormat.format(checkOut);
+            
+            int valueId = Integer.parseInt(idd);
+            int value1 = Integer.parseInt(idKamar);
+            Double value5 = Double.parseDouble(hargaText);
+            
+            String sql = "update reservasi set kode_kamar='"+value1+"',check_in='"+value2+"',check_out='"+value3+"',total_harga='"+value5+"' where id='"+valueId+"'";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.execute();
+            DefaultTableModel model = (DefaultTableModel) TblReservasi.getModel();
+            model.setRowCount(0);
+            Reservasidata();
+            JOptionPane.showMessageDialog(null, "Updated");
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jUpdateActionPerformed
+
+    private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteActionPerformed
+        String idd = jId.getText();
+        int valueId = Integer.parseInt(idd);
+        String sql = "DELETE FROM reservasi WHERE id = ?";
+
+        try (PreparedStatement pst = cn.prepareStatement(sql)) {
+            pst.setInt(1, valueId);
+            pst.executeUpdate();
+            DefaultTableModel model = (DefaultTableModel) TblReservasi.getModel();
+            model.setRowCount(0);
+            Reservasidata();
+            JOptionPane.showMessageDialog(null, "Deleted");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jDeleteActionPerformed
+
+    private void jIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jIdActionPerformed
+
+    private void TblReservasiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblReservasiMouseClicked
+        try{
+            int row = TblReservasi.getSelectedRow();
+            String Table_click=(TblReservasi.getModel().getValueAt(row, 0).toString());
+            String sql = "SELECT * from reservasi where id ='"+Table_click+"' ";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            rs=pst.executeQuery();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            if(rs.next()){
+                String add1 = rs.getString("id");
+                jId.setText(add1);
+                String add2 = rs.getString("kode_kamar");
+                jKodeKamar.setText(add2);
+                String add3 = rs.getString("check_in");
+                java.util.Date checkInDate = dateFormat.parse(add3);
+                jCheckIn.setDate(new java.sql.Date(checkInDate.getTime()));
+                String add4 = rs.getString("check_out");
+                java.util.Date checkOutDate = dateFormat.parse(add4);
+                jCheckOut.setDate(new java.sql.Date(checkOutDate.getTime()));
+                String add5 = rs.getString("total_harga");
+                jHarga.setText(add5);
+            }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_TblReservasiMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TblReservasi;
+    private com.toedter.calendar.JDateChooser jCheckIn;
+    private com.toedter.calendar.JDateChooser jCheckOut;
+    private javax.swing.JButton jDelete;
+    private javax.swing.JTextField jHarga;
+    private javax.swing.JTextField jId;
+    private javax.swing.JTextField jKodeKamar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jUpdate;
     // End of variables declaration//GEN-END:variables
 }

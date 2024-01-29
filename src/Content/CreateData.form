@@ -27,62 +27,58 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="496" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="L_Total_Hari" min="-2" pref="84" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TfHari" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="L_No_kamar" max="32767" attributes="0"/>
+                          <Component id="L_Nama_tamu" pref="84" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="L_Total_Hari" min="-2" pref="84" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="TfHari" max="32767" attributes="0"/>
+                              <Component id="TfTamu" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="L_No_kamar" max="32767" attributes="0"/>
-                                  <Component id="L_Nama_tamu" pref="84" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="TfTamu" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                      <Component id="TfnoKamar" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Component id="TfnoKamar" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <Component id="btncheckin" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="L_Status_kamar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTanggalStatus" min="-2" pref="138" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jTanggalStatus" min="-2" pref="136" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                               <Component id="jSearchStatus" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="L_CheckIn" min="-2" pref="84" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckIn" min="-2" pref="243" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jCheckIn" min="-2" pref="165" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="L_CheckOut" min="-2" pref="84" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckOut" min="-2" pref="243" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jCheckOut" min="-2" pref="165" max="-2" attributes="0"/>
                           </Group>
                           <Component id="L_Input_data_kamar" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
-              <Component id="btncheckin" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
@@ -98,39 +94,46 @@
               <Component id="L_System_Check_in_Hotel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="L_Input_data_kamar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="L_No_kamar" pref="24" max="32767" attributes="0"/>
-                          <Component id="TfnoKamar" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="L_Nama_tamu" pref="24" max="32767" attributes="0"/>
-                          <Component id="TfTamu" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="L_Total_Hari" pref="24" max="32767" attributes="0"/>
-                          <Component id="TfHari" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="L_CheckIn" pref="24" max="32767" attributes="0"/>
-                          <Component id="jCheckIn" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="L_CheckOut" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="jCheckOut" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="L_No_kamar" pref="24" max="32767" attributes="0"/>
+                                  <Component id="TfnoKamar" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="L_Nama_tamu" pref="24" max="32767" attributes="0"/>
+                                  <Component id="TfTamu" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="L_Total_Hari" pref="24" max="32767" attributes="0"/>
+                                  <Component id="TfHari" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="L_CheckIn" min="-2" pref="24" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCheckIn" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="L_CheckOut" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jCheckOut" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="btncheckin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="L_Status_kamar" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="jTanggalStatus" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                              <Component id="L_Status_kamar" min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jTanggalStatus" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Component id="jSearchStatus" min="-2" max="-2" attributes="0"/>
@@ -149,17 +152,17 @@
           <Font name="Segoe UI" size="24" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="System Check in Hotel"/>
+        <Property name="text" type="java.lang.String" value="Check In"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="L_Input_data_kamar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Input data kamar :"/>
+        <Property name="text" type="java.lang.String" value="Input data Tamu :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="L_No_kamar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="No Kamar"/>
+        <Property name="text" type="java.lang.String" value="Kode Kamar"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="L_Nama_tamu">
@@ -255,24 +258,15 @@
         <Property name="text" type="java.lang.String" value="Check In"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jCheckIn">
-    </Component>
     <Component class="javax.swing.JLabel" name="L_CheckOut">
       <Properties>
         <Property name="text" type="java.lang.String" value="Check Out"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jCheckOut">
-    </Component>
     <Component class="javax.swing.JLabel" name="L_Total_Hari">
       <Properties>
         <Property name="text" type="java.lang.String" value="Total Hari"/>
       </Properties>
-    </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jTanggalStatus">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Date date = new Date();&#xa;jTanggalStatus.setDate(date);"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="jSearchStatus">
       <Properties>
@@ -281,6 +275,12 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSearchStatusActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jCheckIn">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jCheckOut">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jTanggalStatus">
     </Component>
   </SubComponents>
 </Form>

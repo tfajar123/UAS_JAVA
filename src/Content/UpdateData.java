@@ -5,17 +5,61 @@
  */
 package Content;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.PreparedStatement;
+
 /**
  *
  * @author tfaja
  */
 public class UpdateData extends javax.swing.JPanel {
-
+    public Statement st;
+    public ResultSet rs;
+    Connection cn = koneksi.KoneksiDB.BukaKoneksi();
     /**
      * Creates new form UpdateData
      */
     public UpdateData() {
         initComponents();
+        jId.setEditable(false);
+        Kamardata();
+    }
+    private void Kamardata()
+    {
+        try {
+            st = cn.createStatement();
+            String query = "SELECT * FROM kamar";
+            rs = st.executeQuery(query);
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Kode Kamar");
+            model.addColumn("Tipe Kamar");
+            model.addColumn("Total Harga");
+
+            model.getDataVector().removeAllElements();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                Object[] data = {
+                    rs.getInt("id"),
+                    rs.getInt("kode_kamar"),
+                    rs.getString("tipe_kamar"),
+                    rs.getDouble("harga"),
+                };
+                model.addRow(data);
+            }
+            // Set the model outside the loop
+            jTable1.setModel(model);
+        } catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -28,29 +72,261 @@ public class UpdateData extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jKodeKamar = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTipeKamar = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jHarga = new javax.swing.JTextField();
+        jCreate = new javax.swing.JButton();
+        jId = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jUpdate = new javax.swing.JButton();
+        jDelete = new javax.swing.JButton();
 
-        jLabel1.setText("Update");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Data Kamar");
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane1.setOpaque(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Kode Kamar", "Tipe Kamar", "Harga"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel2.setText("Kode Kamar");
+
+        jLabel3.setText("Tipe Kamar");
+
+        jTipeKamar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ac", "non ac" }));
+
+        jLabel4.setText("Harga");
+
+        jCreate.setText("Create");
+        jCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCreateActionPerformed(evt);
+            }
+        });
+
+        jId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIdActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("ID");
+
+        jUpdate.setText("Update");
+        jUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUpdateActionPerformed(evt);
+            }
+        });
+
+        jDelete.setText("Delete");
+        jDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1)
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jKodeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTipeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jCreate)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jUpdate)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDelete)))
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel1)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jKodeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTipeKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCreate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jUpdate)
+                            .addComponent(jDelete))))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateActionPerformed
+        String kdKamar = jKodeKamar.getText();
+        Object selectedObject = jTipeKamar.getSelectedItem();
+        String hrg = jHarga.getText();
+
+        // Mengonversi objek yang dipilih menjadi String
+        String tipeKamar = (selectedObject != null) ? selectedObject.toString() : null;
+        Double harga = Double.parseDouble(hrg);
+        int kodeKamar = Integer.parseInt(kdKamar);
+        
+        try{
+            String sql = "INSERT INTO kamar (kode_kamar, tipe_kamar, harga) VALUES (?,?,?)";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, kodeKamar);
+            pst.setString(2, tipeKamar);
+            pst.setDouble(3, harga);
+            
+            pst.executeUpdate();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            Kamardata();
+            JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jCreateActionPerformed
+
+    private void jIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jIdActionPerformed
+
+    private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateActionPerformed
+        try{
+            String id = jId.getText();
+            String kdKamar = jKodeKamar.getText();
+            Object selectedObject = jTipeKamar.getSelectedItem();
+            String hrg = jHarga.getText();
+            
+            // Mengonversi objek yang dipilih menjadi String
+            String tipeKamar = (selectedObject != null) ? selectedObject.toString() : null;
+            Double harga = Double.parseDouble(hrg);
+            int kodeKamar = Integer.parseInt(kdKamar);
+            
+            String sql = "update kamar set kode_kamar='"+kodeKamar+"',tipe_kamar='"+tipeKamar+"',harga='"+harga+"' where id='"+id+"'";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.execute();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            Kamardata();
+            JOptionPane.showMessageDialog(null, "Updated");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jUpdateActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        try{
+            int row = jTable1.getSelectedRow();
+            String Table_click=(jTable1.getModel().getValueAt(row, 0).toString());
+            String sql = "SELECT * from kamar where id ='"+Table_click+"' ";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            rs=pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("id");
+                jId.setText(add1);
+                String add2 = rs.getString("kode_kamar");
+                jKodeKamar.setText(add2);
+                String add3 = rs.getString("tipe_kamar");
+                jTipeKamar.setSelectedItem(add3);
+                String add4 = rs.getString("harga");
+                jHarga.setText(add4);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteActionPerformed
+        String idd = jId.getText();
+        int valueId = Integer.parseInt(idd);
+        String sql = "DELETE FROM kamar WHERE id = ?";
+
+        try (PreparedStatement pst = cn.prepareStatement(sql)) {
+            pst.setInt(1, valueId);
+            pst.executeUpdate();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            Kamardata();
+            JOptionPane.showMessageDialog(null, "Deleted");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jCreate;
+    private javax.swing.JButton jDelete;
+    private javax.swing.JTextField jHarga;
+    private javax.swing.JTextField jId;
+    private javax.swing.JTextField jKodeKamar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> jTipeKamar;
+    private javax.swing.JButton jUpdate;
     // End of variables declaration//GEN-END:variables
 }

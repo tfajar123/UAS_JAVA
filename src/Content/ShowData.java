@@ -24,7 +24,7 @@ public class ShowData extends javax.swing.JPanel {
     public Statement st;
     public ResultSet rs;
     Connection cn = koneksi.KoneksiDB.BukaKoneksi();
-    private volatile boolean running = true;
+    
     /**
      * Creates new form ShowData
      */
